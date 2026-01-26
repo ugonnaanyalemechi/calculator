@@ -61,7 +61,7 @@ function operate(operator, operand1, operand2) {
   }
 }
 
-function resetCalcLogic(calcLogic, calcDisplay) {
+function resetCalcLogicAndDisplay(calcLogic, calcDisplay) {
   calcLogic.operand1 = "0";
   calcLogic.operand2 = "";
   calcLogic.operator = "";
@@ -83,13 +83,21 @@ function updateCharRemovalInCalcLogic(calcLogic) {
   }
 }
 
+function updateNumAdditionInCalcLogic(value, calcLogic) {
+  if (calcLogic.operand1 != "" && calcLogic.operator != "") {
+    calcLogic.operand2 += value;
+  } else {
+    calcLogic.operand1 += value;
+  }
+}
+
 function handleClearBtnPress(calcLogic, calcDisplay) {
-  resetCalcLogic(calcLogic, calcDisplay);
+  resetCalcLogicAndDisplay(calcLogic, calcDisplay);
 }
 
 function handleBackspaceBtnPress(calcLogic, calcDisplay) {
   if (calcDisplay.textContent != "0" && calcDisplay.textContent.length === 1) {
-    resetCalcLogic(calcLogic, calcDisplay);
+    resetCalcLogicAndDisplay(calcLogic, calcDisplay);
   } else if (
     calcDisplay.textContent != "0" &&
     calcDisplay.textContent.length > 1
@@ -99,12 +107,15 @@ function handleBackspaceBtnPress(calcLogic, calcDisplay) {
   }
 }
 
-function handleNumBtnPress(value, calcDisplay) {
+function handleNumBtnPress(value, calcLogic, calcDisplay) {
   if (calcDisplay.textContent === "0") {
+    calcLogic.operand1 = value;
     calcDisplay.textContent = value;
   } else {
+    updateNumAdditionInCalcLogic(value, calcLogic);
     calcDisplay.textContent += value;
   }
+  console.log(calcLogic);
 }
 
 function main() {
@@ -131,7 +142,7 @@ function main() {
           handleBackspaceBtnPress(calcLogic, calcDisplay);
           break;
         default:
-          handleNumBtnPress(value, calcDisplay);
+          handleNumBtnPress(value, calcLogic, calcDisplay);
       }
     }
   });
