@@ -64,16 +64,36 @@ function operate(operator, num1, num2) {
 const btns = document.querySelector(".btns");
 
 btns.addEventListener("click", (e) => {
-  console.log(e);
-  const isPrimaryBtn =
+  const isNumberArithmeticOperator =
     (e.target.classList[0] === "primary-btn" ||
     e.target.classList[0] === "operator-btn") && 
     (e.target.textContent != "." &&
     e.target.textContent != "=");
 
-  if (isPrimaryBtn) {
+  if (isNumberArithmeticOperator) {
     const value = e.target.textContent;
     const display = document.querySelector(".display");
     display.textContent = value;
   }
 });
+
+function handleBackspaceBtnPress(calcDisplayContent) {
+  if (calcDisplayContent != '0') {
+    const calcDisplay = document.querySelector('.display');
+    const updatedDisplayContent = calcDisplayContent.slice(0, -1);
+    calcDisplay.textContent = updatedDisplayContent;
+  }
+}
+
+function main () {
+  let num1 = 0;
+  let num2 = null;
+  let operator = null;
+  let calcDisplayContent = '0';
+
+  let initialMode = true;
+  let firstOperandMode = true;
+  let secondOperandMode = false;
+}
+
+main();
