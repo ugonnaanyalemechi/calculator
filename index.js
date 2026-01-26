@@ -1,86 +1,90 @@
 /**
  * Calculates the sum of two numbers by adding them together
- * @param {number} num1
- * @param {number} num2
+ * @param {number} operand1
+ * @param {number} operand2
  * @returns {number}
  */
-function add(num1, num2) {
-  return num1 + num2;
+function add(operand1, operand2) {
+  return operand1 + operand2;
 }
 
 /**
- * Calculates the difference of two numbers by subtracting num2 from num1
- * @param {number} num1 minuend - starting number
- * @param {number} num2 subtrahend - number taken away
+ * Calculates the difference of two numbers by subtracting operand2 from operand1
+ * @param {number} operand1 minuend - starting number
+ * @param {number} operand2 subtrahend - number taken away
  * @returns {number}
  */
-function subtract(num1, num2) {
-  return num1 - num2;
+function subtract(operand1, operand2) {
+  return operand1 - operand2;
 }
 
 /**
  * Calculates the product of two numbers by multiplying them together
- * @param {number} num1
- * @param {number} num2
+ * @param {number} operand1
+ * @param {number} operand2
  * @returns {number}
  */
-function multiply(num1, num2) {
-  return num1 * num2;
+function multiply(operand1, operand2) {
+  return operand1 * operand2;
 }
 
 /**
- * Calculates the quotient of two numbers by dividing num1 by num2
- * @param {number} num1 dividend - number being divided
- * @param {number} num2 divisor - number dividing by
+ * Calculates the quotient of two numbers by dividing operand1 by operand2
+ * @param {number} operand1 dividend - number being divided
+ * @param {number} operand2 divisor - number dividing by
  * @returns {number}
  */
-function divide(num1, num2) {
-  return num1 / num2;
+function divide(operand1, operand2) {
+  return operand1 / operand2;
 }
 
 /**
  * Handler function that calls the appropriate operator to perform calculation
  * @param {number} operator
- * @param {number} num1
- * @param {number} num2
+ * @param {number} operand1
+ * @param {number} operand2
  */
-function operate(operator, num1, num2) {
+function operate(operator, operand1, operand2) {
   switch (operator) {
     case "add":
-      add(num1, num2);
+      add(operand1, operand2);
       break;
     case "subtract":
-      subtract(num1, num2);
+      subtract(operand1, operand2);
       break;
     case "multiply":
-      multiply(num1, num2);
+      multiply(operand1, operand2);
       break;
     case "divide":
-      divide(num1, num2);
+      divide(operand1, operand2);
       break;
   }
 }
 
-const btns = document.querySelector(".btns");
-
-function handleClearBtnPress(calcLogic, calcDisplay) {
-  calcLogic.num1 = "0";
-  calcLogic.num2 = "";
+function resetCalcLogic(calcLogic, calcDisplay) {
+  calcLogic.operand1 = "0";
+  calcLogic.operand2 = "";
   calcLogic.operator = "";
-  firstOperandMode = true;
-  secondOperandMode = false;
-  calcDisplay.textContent = calcLogic.num1;
+  calcDisplay.textContent = calcLogic.operand1;
 }
 
-function handleBackspaceBtnPress(calcDisplay) {
+function removeLastCharInCalcDisplay(calcDisplay) {
+  const updatedDisplayContent = calcDisplay.textContent.slice(0, -1);
+  calcDisplay.textContent = updatedDisplayContent;
+}
+
+function handleClearBtnPress(calcLogic, calcDisplay) {
+  resetCalcLogic(calcLogic, calcDisplay);
+}
+
+function handleBackspaceBtnPress(calcLogic, calcDisplay) {
   if (calcDisplay.textContent != "0" && calcDisplay.textContent.length === 1) {
-    calcDisplay.textContent = "0";
+    resetCalcLogic(calcLogic, calcDisplay);
   } else if (
     calcDisplay.textContent != "0" &&
-    calcDisplay.textContent.length != 1
+    calcDisplay.textContent.length > 1
   ) {
-    const updatedDisplayContent = calcDisplay.textContent.slice(0, -1);
-    calcDisplay.textContent = updatedDisplayContent;
+    removeLastCharInCalcDisplay(calcDisplay);
   }
 }
 
@@ -94,11 +98,9 @@ function handleNumBtnPress(value, calcDisplay) {
 
 function main() {
   let calcLogic = {
-    num1: "0",
-    num2: "",
+    operand1: "0",
+    operand2: "",
     operator: "",
-    firstOperandMode: true,
-    secondOperandMode: false,
   };
 
   const calcDisplay = document.querySelector(".display");
@@ -107,6 +109,7 @@ function main() {
   btns.addEventListener("click", (e) => {
     const value = e.target.textContent;
     const isButton = e.target.nodeName === "BUTTON";
+    console.log(calcDisplay);
 
     if (isButton && value != ".") {
       switch (value) {
@@ -114,7 +117,7 @@ function main() {
           handleClearBtnPress(calcLogic, calcDisplay);
           break;
         case "⌫":
-          handleBackspaceBtnPress(calcDisplay);
+          handleBackspaceBtnPress(calcLogic, calcDisplay);
           break;
         default:
           handleNumBtnPress(value, calcDisplay);
