@@ -63,8 +63,13 @@ function operate(operator, num1, num2) {
 
 const btns = document.querySelector(".btns");
 
-function handleClearBtnPress(calcDisplay) {
-  calcDisplay.textContent = "0";
+function handleClearBtnPress(calcLogic, calcDisplay) {
+  calcLogic.num1 = "0";
+  calcLogic.num2 = "";
+  calcLogic.operator = "";
+  firstOperandMode = true;
+  secondOperandMode = false;
+  calcDisplay.textContent = calcLogic.num1;
 }
 
 function handleBackspaceBtnPress(calcDisplay) {
@@ -88,25 +93,25 @@ function handleNumBtnPress(value, calcDisplay) {
 }
 
 function main() {
-  // code below is major WIP
   let calcLogic = {
     num1: "0",
     num2: "",
+    operator: "",
     firstOperandMode: true,
     secondOperandMode: false,
-  }
+  };
 
   const calcDisplay = document.querySelector(".display");
   const btns = document.querySelector(".btns");
 
   btns.addEventListener("click", (e) => {
     const value = e.target.textContent;
-    const isButton = e.target.nodeName === 'BUTTON';
-    
-    if (isButton && value != '.') {
+    const isButton = e.target.nodeName === "BUTTON";
+
+    if (isButton && value != ".") {
       switch (value) {
         case "AC":
-          handleClearBtnPress(calcDisplay);
+          handleClearBtnPress(calcLogic, calcDisplay);
           break;
         case "⌫":
           handleBackspaceBtnPress(calcDisplay);
