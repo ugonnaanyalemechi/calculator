@@ -63,37 +63,59 @@ function operate(operator, num1, num2) {
 
 const btns = document.querySelector(".btns");
 
-btns.addEventListener("click", (e) => {
-  const isNumberArithmeticOperator =
-    (e.target.classList[0] === "primary-btn" ||
-    e.target.classList[0] === "operator-btn") && 
-    (e.target.textContent != "." &&
-    e.target.textContent != "=");
+function handleClearBtnPress(calcDisplay) {
+  calcDisplay.textContent = "0";
+}
 
-  if (isNumberArithmeticOperator) {
-    const value = e.target.textContent;
-    const display = document.querySelector(".display");
-    display.textContent = value;
-  }
-});
-
-function handleBackspaceBtnPress(calcDisplayContent) {
-  if (calcDisplayContent != '0') {
-    const calcDisplay = document.querySelector('.display');
-    const updatedDisplayContent = calcDisplayContent.slice(0, -1);
+function handleBackspaceBtnPress(calcDisplay) {
+  if (calcDisplay.textContent != "0" && calcDisplay.textContent.length === 1) {
+    calcDisplay.textContent = "0";
+  } else if (
+    calcDisplay.textContent != "0" &&
+    calcDisplay.textContent.length != 1
+  ) {
+    const updatedDisplayContent = calcDisplay.textContent.slice(0, -1);
     calcDisplay.textContent = updatedDisplayContent;
   }
 }
 
-function main () {
-  let num1 = 0;
-  let num2 = null;
-  let operator = null;
-  let calcDisplayContent = '0';
+function handleNumBtnPress(value, calcDisplay) {
+  if (calcDisplay.textContent === "0") {
+    calcDisplay.textContent = value;
+  } else {
+    calcDisplay.textContent += value;
+  }
+}
 
-  let initialMode = true;
-  let firstOperandMode = true;
-  let secondOperandMode = false;
+function main() {
+  // code below is major WIP
+  let calcLogic = {
+    num1: "0",
+    num2: "",
+    firstOperandMode: true,
+    secondOperandMode: false,
+  }
+
+  const calcDisplay = document.querySelector(".display");
+  const btns = document.querySelector(".btns");
+
+  btns.addEventListener("click", (e) => {
+    const value = e.target.textContent;
+    const isButton = e.target.nodeName === 'BUTTON';
+    
+    if (isButton && value != '.') {
+      switch (value) {
+        case "AC":
+          handleClearBtnPress(calcDisplay);
+          break;
+        case "⌫":
+          handleBackspaceBtnPress(calcDisplay);
+          break;
+        default:
+          handleNumBtnPress(value, calcDisplay);
+      }
+    }
+  });
 }
 
 main();
