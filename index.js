@@ -73,6 +73,16 @@ function removeLastCharInCalcDisplay(calcDisplay) {
   calcDisplay.textContent = updatedDisplayContent;
 }
 
+function updateCharRemovalInCalcLogic(calcLogic) {
+  if (calcLogic.operand2.length != "") {
+    calcLogic.operand2.slice(0, -1);
+  } else if (calcLogic.operand1 != ""  && calcLogic.operator != "") {
+    calcLogic.operator = "";
+  } else {
+    calcLogic.operand2.slice(0, -1);
+  }
+}
+
 function handleClearBtnPress(calcLogic, calcDisplay) {
   resetCalcLogic(calcLogic, calcDisplay);
 }
@@ -84,6 +94,7 @@ function handleBackspaceBtnPress(calcLogic, calcDisplay) {
     calcDisplay.textContent != "0" &&
     calcDisplay.textContent.length > 1
   ) {
+    updateCharRemovalInCalcLogic(calcLogic)
     removeLastCharInCalcDisplay(calcDisplay);
   }
 }
