@@ -74,12 +74,12 @@ function removeLastCharInCalcDisplay(calcDisplay) {
 }
 
 function updateCharRemovalInCalcLogic(calcLogic) {
-  if (calcLogic.operand2.length != "") {
-    calcLogic.operand2.slice(0, -1);
-  } else if (calcLogic.operand1 != ""  && calcLogic.operator != "") {
+  if (calcLogic.operand2.length != 0) {
+    calcLogic.operand2 = calcLogic.operand2.slice(0, -1);
+  } else if (calcLogic.operand1 != "" && calcLogic.operator != "") {
     calcLogic.operator = "";
   } else {
-    calcLogic.operand2.slice(0, -1);
+    calcLogic.operand1 = calcLogic.operand1.slice(0, -1);
   }
 }
 
@@ -102,7 +102,7 @@ function handleBackspaceBtnPress(calcLogic, calcDisplay) {
     calcDisplay.textContent != "0" &&
     calcDisplay.textContent.length > 1
   ) {
-    updateCharRemovalInCalcLogic(calcLogic)
+    updateCharRemovalInCalcLogic(calcLogic);
     removeLastCharInCalcDisplay(calcDisplay);
   }
 }
@@ -115,7 +115,13 @@ function handleNumBtnPress(value, calcLogic, calcDisplay) {
     updateNumAdditionInCalcLogic(value, calcLogic);
     calcDisplay.textContent += value;
   }
-  console.log(calcLogic);
+}
+
+function handleDivisionBtnPress(selectedOperator, calcLogic, calcDisplay) {
+  if (calcLogic.operator === "") {
+    calcLogic.operator = selectedOperator;
+    calcDisplay.textContent += selectedOperator;
+  }
 }
 
 function main() {
@@ -131,7 +137,6 @@ function main() {
   btns.addEventListener("click", (e) => {
     const value = e.target.textContent;
     const isButton = e.target.nodeName === "BUTTON";
-    console.log(calcDisplay);
 
     if (isButton && value != ".") {
       switch (value) {
@@ -142,9 +147,15 @@ function main() {
           handleBackspaceBtnPress(calcLogic, calcDisplay);
           break;
         default:
-          handleNumBtnPress(value, calcLogic, calcDisplay);
+          if (e.target.classList[0] === 'operator-btn') {
+            handleDivisionBtnPress(value, calcLogic, calcDisplay);
+          } else {
+            handleNumBtnPress(value, calcLogic, calcDisplay);
+          }
       }
     }
+
+    console.log(calcLogic);
   });
 }
 
