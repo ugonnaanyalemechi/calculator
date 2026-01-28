@@ -1,28 +1,28 @@
-function add(operand1, operand2) {
+const add = (operand1, operand2) => {
   let result = +operand1 + +operand2;
   result = +result.toFixed(5);
   return result.toString();
-}
+};
 
-function subtract(operand1, operand2) {
+const subtract = (operand1, operand2) => {
   let result = +operand1 - +operand2;
   result = +result.toFixed(5);
   return result.toString();
 }
 
-function multiply(operand1, operand2) {
+const multiply = (operand1, operand2) => {
   let result = +operand1 * +operand2;
   result = +result.toFixed(5);
   return result.toString();
 }
 
-function divide(operand1, operand2) {
+const divide = (operand1, operand2) => {
   let result = +operand1 / +operand2;
   result = +result.toFixed(5);
   return result.toString();
 }
 
-function operate(operator, operand1, operand2) {
+const operate = (operator, operand1, operand2) => {
   let result = 0;
 
   switch (operator) {
@@ -43,19 +43,19 @@ function operate(operator, operand1, operand2) {
   return result;
 }
 
-function resetCalcLogicAndDisplay(calcLogic, calcDisplay) {
+const resetCalcLogicAndDisplay = (calcLogic, calcDisplay) => {
   calcLogic.operand1 = "0";
   calcLogic.operand2 = "";
   calcLogic.operator = "";
   calcDisplay.textContent = calcLogic.operand1;
 }
 
-function removeLastCharInCalcDisplay(calcDisplay) {
+const removeLastCharInCalcDisplay = (calcDisplay) => {
   const updatedDisplayContent = calcDisplay.textContent.slice(0, -1);
   calcDisplay.textContent = updatedDisplayContent;
 }
 
-function updateCharRemovalInCalcLogic(calcLogic) {
+const updateCharRemovalInCalcLogic = (calcLogic) => {
   if (calcLogic.operand2.length != 0) {
     calcLogic.operand2 = calcLogic.operand2.slice(0, -1);
   } else if (calcLogic.operand1 != "" && calcLogic.operator != "") {
@@ -65,7 +65,7 @@ function updateCharRemovalInCalcLogic(calcLogic) {
   }
 }
 
-function updateNumAdditionInCalcLogic(value, calcLogic) {
+const updateNumAdditionInCalcLogic = (value, calcLogic) => {
   if (calcLogic.operand1 != "" && calcLogic.operator != "") {
     calcLogic.operand2 += value;
   } else {
@@ -73,11 +73,11 @@ function updateNumAdditionInCalcLogic(value, calcLogic) {
   }
 }
 
-function handleClearBtnPress(calcLogic, calcDisplay) {
+const handleClearBtnPress = (calcLogic, calcDisplay) => {
   resetCalcLogicAndDisplay(calcLogic, calcDisplay);
 }
 
-function handleBackspaceBtnPress(calcLogic, calcDisplay) {
+const handleBackspaceBtnPress = (calcLogic, calcDisplay) => {
   if (calcDisplay.textContent != "0" && calcDisplay.textContent.length === 1) {
     resetCalcLogicAndDisplay(calcLogic, calcDisplay);
   } else if (
@@ -89,7 +89,7 @@ function handleBackspaceBtnPress(calcLogic, calcDisplay) {
   }
 }
 
-function handleNumBtnPress(value, calcLogic, calcDisplay) {
+const handleNumBtnPress = (value, calcLogic, calcDisplay) => {
   if (calcDisplay.textContent === "0") {
     calcLogic.operand1 = value;
     calcDisplay.textContent = value;
@@ -99,7 +99,7 @@ function handleNumBtnPress(value, calcLogic, calcDisplay) {
   }
 }
 
-function performBinaryOperationAndDisplayResult(calcLogic, calcDisplay) {
+const performBinaryOperationAndDisplayResult = (calcLogic, calcDisplay) => {
   const result = operate(calcLogic.operator, calcLogic.operand1, calcLogic.operand2);
   calcLogic.operand1 = result;
   calcLogic.operand2 = '';
@@ -107,7 +107,7 @@ function performBinaryOperationAndDisplayResult(calcLogic, calcDisplay) {
   calcDisplay.textContent = result;
 }
 
-function performSequentialOperationAndDisplayResult(selectedOperator, calcLogic, calcDisplay) {
+const performSequentialOperationAndDisplayResult = (selectedOperator, calcLogic, calcDisplay) => {
   const result = operate(calcLogic.operator, calcLogic.operand1, calcLogic.operand2);
   calcLogic.operand1 = result;
   calcLogic.operand2 = '';
@@ -115,7 +115,7 @@ function performSequentialOperationAndDisplayResult(selectedOperator, calcLogic,
   calcDisplay.textContent = `${result}${calcLogic.operator}`;
 }
 
-function handleOperatorBtnPress(selectedOperator, calcLogic, calcDisplay) {
+const handleOperatorBtnPress = (selectedOperator, calcLogic, calcDisplay) => {
   if (
     selectedOperator === "=" &&
     calcLogic.operand1 != "" &&
@@ -136,7 +136,7 @@ function handleOperatorBtnPress(selectedOperator, calcLogic, calcDisplay) {
   }
 }
 
-function main() {
+const main = () => {
   let calcLogic = {
     operand1: "0",
     operand2: "",
