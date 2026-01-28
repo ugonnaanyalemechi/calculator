@@ -5,7 +5,9 @@
  * @returns {number}
  */
 function add(operand1, operand2) {
-  return operand1 + operand2;
+  let result = +operand1 + +operand2;
+  result = +result.toFixed(5);
+  return result.toString();
 }
 
 /**
@@ -15,7 +17,9 @@ function add(operand1, operand2) {
  * @returns {number}
  */
 function subtract(operand1, operand2) {
-  return operand1 - operand2;
+  let result = +operand1 - +operand2;
+  result = +result.toFixed(5);
+  return result.toString();
 }
 
 /**
@@ -25,7 +29,9 @@ function subtract(operand1, operand2) {
  * @returns {number}
  */
 function multiply(operand1, operand2) {
-  return operand1 * operand2;
+  let result = +operand1 * +operand2;
+  result = +result.toFixed(5);
+  return result.toString();
 }
 
 /**
@@ -35,7 +41,9 @@ function multiply(operand1, operand2) {
  * @returns {number}
  */
 function divide(operand1, operand2) {
-  return operand1 / operand2;
+  let result = +operand1 / +operand2;
+  result = +result.toFixed(5);
+  return result.toString();
 }
 
 /**
@@ -45,20 +53,24 @@ function divide(operand1, operand2) {
  * @param {number} operand2
  */
 function operate(operator, operand1, operand2) {
+  let result = 0;
+
   switch (operator) {
-    case "add":
-      add(operand1, operand2);
+    case "+":
+      result = add(operand1, operand2);
       break;
-    case "subtract":
-      subtract(operand1, operand2);
+    case "-":
+      result = subtract(operand1, operand2);
       break;
-    case "multiply":
-      multiply(operand1, operand2);
+    case "x":
+      result = multiply(operand1, operand2);
       break;
-    case "divide":
-      divide(operand1, operand2);
+    case "÷":
+      result = divide(operand1, operand2);
       break;
   }
+
+  return result;
 }
 
 function resetCalcLogicAndDisplay(calcLogic, calcDisplay) {
@@ -117,11 +129,42 @@ function handleNumBtnPress(value, calcLogic, calcDisplay) {
   }
 }
 
-function handleDivisionBtnPress(selectedOperator, calcLogic, calcDisplay) {
-  if (calcLogic.operator === "") {
+function performBinaryOperationAndDisplayResult(calcLogic, calcDisplay) {
+  const result = operate(calcLogic.operator, calcLogic.operand1, calcLogic.operand2);
+  calcLogic.operand1 = result;
+  calcLogic.operand2 = '';
+  calcLogic.operator = '';
+  calcDisplay.textContent = result;
+}
+
+function performSequentialOperationAndDisplayResult(selectedOperator, calcLogic, calcDisplay) {
+  const result = operate(calcLogic.operator, calcLogic.operand1, calcLogic.operand2);
+  calcLogic.operand1 = result;
+  calcLogic.operand2 = '';
+  calcLogic.operator = selectedOperator;
+  calcDisplay.textContent = `${result}${calcLogic.operator}`;
+}
+
+function handleOperatorBtnPress(selectedOperator, calcLogic, calcDisplay) {
+  if (
+    selectedOperator === "=" &&
+    calcLogic.operand1 != "" &&
+    calcLogic.operand2 != "" &&
+    calcLogic.operator != ""
+  ) {
+    performBinaryOperationAndDisplayResult(calcLogic, calcDisplay);
+  } else if (
+    selectedOperator != "=" &&
+    calcLogic.operand1 != "" &&
+    calcLogic.operand2 != "" &&
+    calcLogic.operator != ""
+  ) {
+    performSequentialOperationAndDisplayResult(selectedOperator, calcLogic, calcDisplay);
+  } else if (calcLogic.operator === "" && selectedOperator != "=") {
     calcLogic.operator = selectedOperator;
     calcDisplay.textContent += selectedOperator;
   }
+  
 }
 
 function main() {
@@ -147,8 +190,8 @@ function main() {
           handleBackspaceBtnPress(calcLogic, calcDisplay);
           break;
         default:
-          if (e.target.classList[0] === 'operator-btn') {
-            handleDivisionBtnPress(value, calcLogic, calcDisplay);
+          if (e.target.classList[0] === "operator-btn") {
+            handleOperatorBtnPress(value, calcLogic, calcDisplay);
           } else {
             handleNumBtnPress(value, calcLogic, calcDisplay);
           }
