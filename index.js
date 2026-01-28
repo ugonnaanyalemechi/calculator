@@ -47,6 +47,7 @@ const resetCalcLogicAndDisplay = (calcLogic, calcDisplay) => {
   calcLogic.operand1 = "0";
   calcLogic.operand2 = "";
   calcLogic.operator = "";
+  calcLogic.resultProvided = false;
   calcDisplay.textContent = calcLogic.operand1;
 }
 
@@ -56,6 +57,7 @@ const removeLastCharInCalcDisplay = (calcDisplay) => {
 }
 
 const updateCharRemovalInCalcLogic = (calcLogic) => {
+  calcLogic.resultProvided = false;
   if (calcLogic.operand2.length != 0) {
     calcLogic.operand2 = calcLogic.operand2.slice(0, -1);
   } else if (calcLogic.operand1 != "" && calcLogic.operator != "") {
@@ -90,8 +92,9 @@ const handleBackspaceBtnPress = (calcLogic, calcDisplay) => {
 }
 
 const handleNumBtnPress = (value, calcLogic, calcDisplay) => {
-  if (calcDisplay.textContent === "0") {
+  if (calcDisplay.textContent === "0" || calcLogic.resultProvided) {
     calcLogic.operand1 = value;
+    calcLogic.resultProvided = false;
     calcDisplay.textContent = value;
   } else {
     updateNumAdditionInCalcLogic(value, calcLogic);
@@ -104,6 +107,7 @@ const performBinaryOperationAndDisplayResult = (calcLogic, calcDisplay) => {
   calcLogic.operand1 = result;
   calcLogic.operand2 = '';
   calcLogic.operator = '';
+  calcLogic.resultProvided = true;
   calcDisplay.textContent = result;
 }
 
@@ -131,6 +135,7 @@ const handleOperatorBtnPress = (selectedOperator, calcLogic, calcDisplay) => {
   ) {
     performSequentialOperationAndDisplayResult(selectedOperator, calcLogic, calcDisplay);
   } else if (calcLogic.operator === "" && selectedOperator != "=") {
+    calcLogic.resultProvided = false;
     calcLogic.operator = selectedOperator;
     calcDisplay.textContent += selectedOperator;
   }
