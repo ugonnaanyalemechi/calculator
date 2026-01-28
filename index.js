@@ -1,57 +1,27 @@
-/**
- * Calculates the sum of two numbers by adding them together
- * @param {number} operand1
- * @param {number} operand2
- * @returns {number}
- */
 function add(operand1, operand2) {
   let result = +operand1 + +operand2;
   result = +result.toFixed(5);
   return result.toString();
 }
 
-/**
- * Calculates the difference of two numbers by subtracting operand2 from operand1
- * @param {number} operand1 minuend - starting number
- * @param {number} operand2 subtrahend - number taken away
- * @returns {number}
- */
 function subtract(operand1, operand2) {
   let result = +operand1 - +operand2;
   result = +result.toFixed(5);
   return result.toString();
 }
 
-/**
- * Calculates the product of two numbers by multiplying them together
- * @param {number} operand1
- * @param {number} operand2
- * @returns {number}
- */
 function multiply(operand1, operand2) {
   let result = +operand1 * +operand2;
   result = +result.toFixed(5);
   return result.toString();
 }
 
-/**
- * Calculates the quotient of two numbers by dividing operand1 by operand2
- * @param {number} operand1 dividend - number being divided
- * @param {number} operand2 divisor - number dividing by
- * @returns {number}
- */
 function divide(operand1, operand2) {
   let result = +operand1 / +operand2;
   result = +result.toFixed(5);
   return result.toString();
 }
 
-/**
- * Handler function that calls the appropriate operator to perform calculation
- * @param {number} operator
- * @param {number} operand1
- * @param {number} operand2
- */
 function operate(operator, operand1, operand2) {
   let result = 0;
 
@@ -164,7 +134,6 @@ function handleOperatorBtnPress(selectedOperator, calcLogic, calcDisplay) {
     calcLogic.operator = selectedOperator;
     calcDisplay.textContent += selectedOperator;
   }
-  
 }
 
 function main() {
@@ -172,6 +141,7 @@ function main() {
     operand1: "0",
     operand2: "",
     operator: "",
+    resultProvided: false,
   };
 
   const calcDisplay = document.querySelector(".display");
