@@ -1,31 +1,12 @@
-const add = (operand1, operand2) => {
-  let result = +operand1 + +operand2;
-  result = +result.toFixed(5);
-  return result.toString();
-};
+const UNDEFINED = "Undefined";
 
-const subtract = (operand1, operand2) => {
-  let result = +operand1 - +operand2;
-  result = +result.toFixed(5);
-  return result.toString();
-};
+const formatResult = (value) => +value.toFixed(5).toString();
+const add = (operand1, operand2) => formatResult(+operand1 + +operand2);
+const subtract = (operand1, operand2) => formatResult(+operand1 - +operand2);
+const multiply = (operand1, operand2) => formatResult(+operand1 - +operand2);
+const divide = (operand1, operand2) => operand2 === "0" ? UNDEFINED : formatResult(+operand1 - +operand2);
 
-const multiply = (operand1, operand2) => {
-  let result = +operand1 * +operand2;
-  result = +result.toFixed(5);
-  return result.toString();
-};
-
-const divide = (operand1, operand2) => {
-  if (operand2 === "0") {
-    return "Undefined";
-  }
-  let result = +operand1 / +operand2;
-  result = +result.toFixed(5);
-  return result.toString();
-};
-
-const operate = (operator, operand1, operand2) => {
+function operate(operator, operand1, operand2) {
   let result = 0;
 
   switch (operator) {
@@ -44,58 +25,58 @@ const operate = (operator, operand1, operand2) => {
   }
 
   return result;
-};
+}
 
-const resetCalcLogicAndDisplay = (calcLogic, calcDisplay) => {
+function resetCalcLogicAndDisplay(calcLogic, calcDisplay) {
   calcLogic.operand1 = "0";
   calcLogic.operand2 = "";
   calcLogic.operator = "";
   calcLogic.resultProvided = false;
   calcDisplay.textContent = calcLogic.operand1;
-};
+}
 
-const removeLastCharInCalcDisplay = (calcDisplay) => {
+function removeLastCharInCalcDisplay(calcDisplay) {
   const updatedDisplayContent = calcDisplay.textContent.slice(0, -1);
   calcDisplay.textContent = updatedDisplayContent;
 };
 
-const updateCharRemovalInCalcLogic = (calcLogic) => {
+function updateCharRemovalInCalcLogic(calcLogic) {
   calcLogic.resultProvided = false;
-  if (calcLogic.operand2.length != 0) {
+  if (calcLogic.operand2.length !== 0) {
     calcLogic.operand2 = calcLogic.operand2.slice(0, -1);
-  } else if (calcLogic.operand1 != "" && calcLogic.operator != "") {
+  } else if (calcLogic.operand1 !== "" && calcLogic.operator !== "") {
     calcLogic.operator = "";
   } else {
     calcLogic.operand1 = calcLogic.operand1.slice(0, -1);
   }
 };
 
-const updateNumAdditionInCalcLogic = (value, calcLogic) => {
-  if (calcLogic.operand1 != "" && calcLogic.operator != "") {
+function updateNumAdditionInCalcLogic(value, calcLogic) {
+  if (calcLogic.operand1 !== "" && calcLogic.operator !== "") {
     calcLogic.operand2 += value;
   } else {
     calcLogic.operand1 += value;
   }
 };
 
-const handleClearBtnPress = (calcLogic, calcDisplay) => {
+function handleClearBtnPress(calcLogic, calcDisplay) {
   resetCalcLogicAndDisplay(calcLogic, calcDisplay);
 };
 
-const handleBackspaceBtnPress = (calcLogic, calcDisplay) => {
-  if (calcDisplay.textContent != "0" && calcDisplay.textContent.length === 1) {
+function handleBackspaceBtnPress(calcLogic, calcDisplay) {
+  if (calcDisplay.textContent !== "0" && calcDisplay.textContent.length === 1) {
     resetCalcLogicAndDisplay(calcLogic, calcDisplay);
   } else if (
-    calcDisplay.textContent != "0" &&
+    calcDisplay.textContent !== "0" &&
     calcDisplay.textContent.length > 1 &&
-    calcLogic.operand1 != "Undefined"
+    calcLogic.operand1 !== UNDEFINED
   ) {
     updateCharRemovalInCalcLogic(calcLogic);
     removeLastCharInCalcDisplay(calcDisplay);
   }
 };
 
-const handleNumBtnPress = (value, calcLogic, calcDisplay) => {
+function handleNumBtnPress(value, calcLogic, calcDisplay) {
   if (calcDisplay.textContent === "0" || calcLogic.resultProvided) {
     calcLogic.operand1 = value;
     calcLogic.resultProvided = false;
@@ -104,9 +85,9 @@ const handleNumBtnPress = (value, calcLogic, calcDisplay) => {
     updateNumAdditionInCalcLogic(value, calcLogic);
     calcDisplay.textContent += value;
   }
-};
+}
 
-const performBinaryOperationAndDisplayResult = (calcLogic, calcDisplay) => {
+function performBinaryOperationAndDisplayResult(calcLogic, calcDisplay) {
   const result = operate(
     calcLogic.operator,
     calcLogic.operand1,
@@ -117,13 +98,13 @@ const performBinaryOperationAndDisplayResult = (calcLogic, calcDisplay) => {
   calcLogic.operator = "";
   calcLogic.resultProvided = true;
   calcDisplay.textContent = result;
-};
+}
 
-const performSequentialOperationAndDisplayResult = (
+function performSequentialOperationAndDisplayResult(
   selectedOperator,
   calcLogic,
   calcDisplay,
-) => {
+) {
   const result = operate(
     calcLogic.operator,
     calcLogic.operand1,
@@ -133,44 +114,39 @@ const performSequentialOperationAndDisplayResult = (
   calcLogic.operand2 = "";
   calcLogic.operator = selectedOperator;
   calcDisplay.textContent = `${result}${calcLogic.operator}`;
-};
+}
 
-const prepareForNegativeOperand = (calcLogic, calcDisplay) => {
+function prepareForNegativeOperand(calcLogic, calcDisplay) {
   calcLogic.resultProvided = false;
   calcLogic.operand1 = "-";
   calcDisplay.textContent = calcLogic.operand1;
-};
+}
 
-const updateCalcLogicAndDisplayWithOperator = (
+function updateCalcLogicAndDisplayWithOperator(
   selectedOperator,
   calcLogic,
   calcDisplay,
-) => {
+) {
   calcLogic.resultProvided = false;
   calcLogic.operator = selectedOperator;
   calcDisplay.textContent += selectedOperator;
-};
+}
 
-const handleOperatorBtnPress = (selectedOperator, calcLogic, calcDisplay) => {
+function handleOperatorBtnPress(selectedOperator, calcLogic, calcDisplay) {
+  const hasExpression =
+    calcLogic.operand1 !== "" &&
+    calcLogic.operand2 !== "" &&
+    calcLogic.operator !== "";
+
   if (
     selectedOperator === "-" &&
     calcLogic.operator === "" &&
     calcLogic.operand1 === "0"
   ) {
     prepareForNegativeOperand(calcLogic, calcDisplay);
-  } else if (
-    selectedOperator === "=" &&
-    calcLogic.operand1 != "" &&
-    calcLogic.operand2 != "" &&
-    calcLogic.operator != ""
-  ) {
+  } else if (selectedOperator === "=" && hasExpression) {
     performBinaryOperationAndDisplayResult(calcLogic, calcDisplay);
-  } else if (
-    selectedOperator != "=" &&
-    calcLogic.operand1 != "" &&
-    calcLogic.operand2 != "" &&
-    calcLogic.operator != ""
-  ) {
+  } else if (selectedOperator !== "=" && hasExpression) {
     performSequentialOperationAndDisplayResult(
       selectedOperator,
       calcLogic,
@@ -178,8 +154,8 @@ const handleOperatorBtnPress = (selectedOperator, calcLogic, calcDisplay) => {
     );
   } else if (
     calcLogic.operator === "" &&
-    selectedOperator != "=" &&
-    calcLogic.operand1 != "-"
+    selectedOperator !== "=" &&
+    calcLogic.operand1 !== "-"
   ) {
     updateCalcLogicAndDisplayWithOperator(
       selectedOperator,
@@ -187,9 +163,9 @@ const handleOperatorBtnPress = (selectedOperator, calcLogic, calcDisplay) => {
       calcDisplay,
     );
   }
-};
+}
 
-const main = () => {
+function main() {
   let calcLogic = {
     operand1: "0",
     operand2: "",
@@ -204,7 +180,7 @@ const main = () => {
     const value = e.target.textContent;
     const isButton = e.target.nodeName === "BUTTON";
 
-    if (isButton && value != ".") {
+    if (isButton && value !== ".") {
       switch (value) {
         case "AC":
           handleClearBtnPress(calcLogic, calcDisplay);
@@ -223,6 +199,6 @@ const main = () => {
 
     console.log(calcLogic);
   });
-};
+}
 
 main();
