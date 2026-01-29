@@ -17,6 +17,9 @@ const multiply = (operand1, operand2) => {
 };
 
 const divide = (operand1, operand2) => {
+  if (operand2 === "0") {
+    return "Undefined";
+  }
   let result = +operand1 / +operand2;
   result = +result.toFixed(5);
   return result.toString();
@@ -84,7 +87,8 @@ const handleBackspaceBtnPress = (calcLogic, calcDisplay) => {
     resetCalcLogicAndDisplay(calcLogic, calcDisplay);
   } else if (
     calcDisplay.textContent != "0" &&
-    calcDisplay.textContent.length > 1
+    calcDisplay.textContent.length > 1 &&
+    calcLogic.operand1 != "Undefined"
   ) {
     updateCharRemovalInCalcLogic(calcLogic);
     removeLastCharInCalcDisplay(calcDisplay);
