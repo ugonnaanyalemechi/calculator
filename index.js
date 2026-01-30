@@ -1,10 +1,10 @@
 const UNDEFINED = "Undefined";
 
-const formatResult = (value) => +value.toFixed(5).toString();
+const formatResult = (value) => (+value.toFixed(5)).toString();
 const add = (operand1, operand2) => formatResult(+operand1 + +operand2);
 const subtract = (operand1, operand2) => formatResult(+operand1 - +operand2);
-const multiply = (operand1, operand2) => formatResult(+operand1 - +operand2);
-const divide = (operand1, operand2) => operand2 === "0" ? UNDEFINED : formatResult(+operand1 - +operand2);
+const multiply = (operand1, operand2) => formatResult(+operand1 * +operand2);
+const divide = (operand1, operand2) => operand2 === "0" ? UNDEFINED : formatResult(+operand1 / +operand2);
 
 function operate(operator, operand1, operand2) {
   let result = 0;
@@ -32,6 +32,7 @@ function resetCalcLogicAndDisplay(calcLogic, calcDisplay) {
   calcLogic.operand2 = "";
   calcLogic.operator = "";
   calcLogic.resultProvided = false;
+  calcLogic.decimalBtnPressed = false;
   calcDisplay.textContent = calcLogic.operand1;
 }
 
@@ -42,11 +43,13 @@ function removeLastCharInCalcDisplay(calcDisplay) {
 
 function updateCharRemovalInCalcLogic(calcLogic) {
   calcLogic.resultProvided = false;
-  if (calcLogic.operand2.length !== 0) {
+  if (calcLogic.operand2 !== "") {
+    if (calcLogic.operand2.at(-1) === ".") calcLogic.decimalBtnPressed = false;
     calcLogic.operand2 = calcLogic.operand2.slice(0, -1);
   } else if (calcLogic.operand1 !== "" && calcLogic.operator !== "") {
     calcLogic.operator = "";
   } else {
+    if (calcLogic.operand1.at(-1) === ".") calcLogic.decimalBtnPressed = false;
     calcLogic.operand1 = calcLogic.operand1.slice(0, -1);
   }
 };
@@ -93,9 +96,8 @@ function performBinaryOperationAndDisplayResult(calcLogic, calcDisplay) {
     calcLogic.operand1,
     calcLogic.operand2,
   );
+  resetCalcLogicAndDisplay(calcLogic, calcDisplay);
   calcLogic.operand1 = result;
-  calcLogic.operand2 = "";
-  calcLogic.operator = "";
   calcLogic.resultProvided = true;
   calcDisplay.textContent = result;
 }
@@ -110,8 +112,8 @@ function performSequentialOperationAndDisplayResult(
     calcLogic.operand1,
     calcLogic.operand2,
   );
+  resetCalcLogicAndDisplay(calcLogic, calcDisplay);
   calcLogic.operand1 = result;
-  calcLogic.operand2 = "";
   calcLogic.operator = selectedOperator;
   calcDisplay.textContent = `${result}${calcLogic.operator}`;
 }
@@ -165,12 +167,32 @@ function handleOperatorBtnPress(selectedOperator, calcLogic, calcDisplay) {
   }
 }
 
+function handleDecimalBtnPress(calcLogic, calcDisplay) {
+  calcLogic.decimalBtnPressed = true;
+  calcLogic.resultProvided = false;
+
+  if (calcLogic.operator !== "" && calcLogic.operand2 === "") {
+    calcLogic.operand2 = "0.";
+    calcDisplay.textContent += "0.";
+  } else if (calcLogic.operand2 !== "") {
+    calcLogic.operand2 += ".";
+    calcDisplay.textContent += ".";
+  } else if (calcLogic.operand1 === "-"){
+    calcLogic.operand1 = "0.";
+    calcDisplay.textContent += "0.";
+  } else {
+    calcLogic.operand1 += ".";
+    calcDisplay.textContent += ".";
+  }
+}
+
 function main() {
   let calcLogic = {
     operand1: "0",
     operand2: "",
     operator: "",
     resultProvided: false,
+    decimalBtnPressed: false,
   };
 
   const calcDisplay = document.querySelector(".display");
@@ -180,13 +202,16 @@ function main() {
     const value = e.target.textContent;
     const isButton = e.target.nodeName === "BUTTON";
 
-    if (isButton && value !== ".") {
+    if (isButton) {
       switch (value) {
         case "AC":
           handleClearBtnPress(calcLogic, calcDisplay);
           break;
         case "⌫":
           handleBackspaceBtnPress(calcLogic, calcDisplay);
+          break;
+        case ".":
+          if (!calcLogic.decimalBtnPressed) handleDecimalBtnPress(calcLogic, calcDisplay);
           break;
         default:
           if (e.target.classList[0] === "operator-btn") {
@@ -202,3 +227,9 @@ function main() {
 }
 
 main();
+
+/**
+ * When decimal button is clicked, it should be appended to the number before it
+ * When clicked when an operator exists, should make operand #2 '0.'
+ * When result is shown after a calculation, pressing decimal button should make operand #1 '0.'
+ */
