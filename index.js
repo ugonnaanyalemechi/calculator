@@ -4,7 +4,8 @@ const formatResult = (value) => (+value.toFixed(5)).toString();
 const add = (operand1, operand2) => formatResult(+operand1 + +operand2);
 const subtract = (operand1, operand2) => formatResult(+operand1 - +operand2);
 const multiply = (operand1, operand2) => formatResult(+operand1 * +operand2);
-const divide = (operand1, operand2) => operand2 === "0" ? UNDEFINED : formatResult(+operand1 / +operand2);
+const divide = (operand1, operand2) =>
+  operand2 === "0" ? UNDEFINED : formatResult(+operand1 / +operand2);
 
 function operate(operator, operand1, operand2) {
   let result = 0;
@@ -39,7 +40,7 @@ function resetCalcLogicAndDisplay(calcLogic, calcDisplay) {
 function removeLastCharInCalcDisplay(calcDisplay) {
   const updatedDisplayContent = calcDisplay.textContent.slice(0, -1);
   calcDisplay.textContent = updatedDisplayContent;
-};
+}
 
 function updateCharRemovalInCalcLogic(calcLogic) {
   calcLogic.resultProvided = false;
@@ -52,7 +53,7 @@ function updateCharRemovalInCalcLogic(calcLogic) {
     if (calcLogic.operand1.at(-1) === ".") calcLogic.decimalBtnPressed = false;
     calcLogic.operand1 = calcLogic.operand1.slice(0, -1);
   }
-};
+}
 
 function updateNumAdditionInCalcLogic(value, calcLogic) {
   if (calcLogic.operand1 !== "" && calcLogic.operator !== "") {
@@ -60,11 +61,11 @@ function updateNumAdditionInCalcLogic(value, calcLogic) {
   } else {
     calcLogic.operand1 += value;
   }
-};
+}
 
 function handleClearBtnPress(calcLogic, calcDisplay) {
   resetCalcLogicAndDisplay(calcLogic, calcDisplay);
-};
+}
 
 function handleBackspaceBtnPress(calcLogic, calcDisplay) {
   if (calcDisplay.textContent !== "0" && calcDisplay.textContent.length === 1) {
@@ -77,7 +78,7 @@ function handleBackspaceBtnPress(calcLogic, calcDisplay) {
     updateCharRemovalInCalcLogic(calcLogic);
     removeLastCharInCalcDisplay(calcDisplay);
   }
-};
+}
 
 function handleNumBtnPress(value, calcLogic, calcDisplay) {
   if (calcDisplay.textContent === "0" || calcLogic.resultProvided) {
@@ -177,7 +178,7 @@ function handleDecimalBtnPress(calcLogic, calcDisplay) {
   } else if (calcLogic.operand2 !== "") {
     calcLogic.operand2 += ".";
     calcDisplay.textContent += ".";
-  } else if (calcLogic.operand1 === "-"){
+  } else if (calcLogic.operand1 === "-") {
     calcLogic.operand1 = "0.";
     calcDisplay.textContent += "0.";
   } else {
@@ -211,7 +212,8 @@ function main() {
           handleBackspaceBtnPress(calcLogic, calcDisplay);
           break;
         case ".":
-          if (!calcLogic.decimalBtnPressed) handleDecimalBtnPress(calcLogic, calcDisplay);
+          if (!calcLogic.decimalBtnPressed)
+            handleDecimalBtnPress(calcLogic, calcDisplay);
           break;
         default:
           if (e.target.classList[0] === "operator-btn") {
@@ -221,8 +223,6 @@ function main() {
           }
       }
     }
-
-    console.log(calcLogic);
   });
 }
 
