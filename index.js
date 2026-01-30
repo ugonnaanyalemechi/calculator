@@ -227,9 +227,3 @@ function main() {
 }
 
 main();
-
-/**
- * When decimal button is clicked, it should be appended to the number before it
- * When clicked when an operator exists, should make operand #2 '0.'
- * When result is shown after a calculation, pressing decimal button should make operand #1 '0.'
- */
