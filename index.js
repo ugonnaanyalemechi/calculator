@@ -131,6 +131,7 @@ function updateCalcLogicAndDisplayWithOperator(
   calcDisplay,
 ) {
   calcLogic.resultProvided = false;
+  calcLogic.decimalBtnPressed = false;
   calcLogic.operator = selectedOperator;
   calcDisplay.textContent += selectedOperator;
 }
@@ -224,6 +225,7 @@ function main() {
       }
     }
   });
+
 }
 
 main();
