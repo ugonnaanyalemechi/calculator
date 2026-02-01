@@ -13,9 +13,37 @@
 
 .calculator {
   background-color: gray;
-  padding: 20px;
+  width: 350px;
+  height: 600px;
+  border-radius: 20px;
 }
 
 .display {
+  height: 100px;
+  padding: 40px 20px 75px;
   text-align: right;
+  font-size: 50px;
+  background-color: rgb(42, 46, 55);
+  border-top-right-radius: 20px;
+  border-top-left-radius: 20px;
+  color: rgb(200, 203, 210);
+  font-family: "M PLUS 1p", sans-serif;
+}
+
+/* button {
+  border: none;
+} */
+
+.row-1-btns,
+.row-2-btns,
+.row-3-btns,
+.row-4-btns,
+.row-5-btns {
+  display: flex;
+}
+
+.primary-btn,
+.secondary-btn,
+.operator-btn {
+  flex: 1;
 }
