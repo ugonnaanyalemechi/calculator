@@ -2,6 +2,7 @@
   margin: 0px;
   padding: 0px;
   box-sizing: border-box;
+  font-family: "M PLUS 1p", sans-serif;
 }
 
 .calc-container {
@@ -25,7 +26,6 @@
   border-top-right-radius: 20px;
   border-top-left-radius: 20px;
   color: rgb(200, 203, 210);
-  font-family: "M PLUS 1p", sans-serif;
 }
 
 .btns {
@@ -41,6 +41,7 @@
 
 button {
   border: none;
+  font-size: 20px;
 }
 
 .primary-btn,
@@ -49,9 +50,21 @@ button {
   flex: 1 1 0;
 }
 
+.primary-btn,
+.secondary-btn {
+  border-right: 2px solid rgb(42, 46, 55);
+}
+
+.row-2-btns,
+.row-3-btns,
+.row-4-btns,
+.row-5-btns {
+  border-top: 2px solid rgb(42, 46, 55);
+}
+
 .clear,
 .zero {
-  flex: 2 1 0;
+  flex: 2 1 4px;
 }
 
 .zero {
