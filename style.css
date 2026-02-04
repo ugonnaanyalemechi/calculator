@@ -41,18 +41,31 @@
 
 button {
   border: none;
-  font-size: 20px;
+  font-size: 25px;
 }
 
 .primary-btn,
 .operator-btn,
 .secondary-btn {
   flex: 1 1 0;
+  color: rgb(200, 203, 210);
 }
 
 .primary-btn,
 .secondary-btn {
   border-right: 2px solid rgb(42, 46, 55);
+}
+
+.primary-btn {
+  background-color: rgb(66, 68, 73);
+}
+
+.secondary-btn {
+  background-color: rgb(104, 107, 113);
+}
+
+.operator-btn {
+  background-color: rgb(60, 95, 183);
 }
 
 .row-2-btns,
