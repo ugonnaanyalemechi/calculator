@@ -225,7 +225,6 @@ function main() {
       }
     }
   });
-
 }
 
 main();
