@@ -225,6 +225,50 @@ function main() {
       }
     }
   });
+
+  document.addEventListener("keydown", (e) => {
+    let keyName = e.key;
+
+    if (keyName === "*") {
+      keyName = "x";
+    } else if (keyName === "/") {
+      keyName = "÷";
+    } else if (keyName === "Enter") {
+      keyName = "=";
+    }
+
+    switch (keyName) {
+      case "c":
+        handleClearBtnPress(calcLogic, calcDisplay);
+        break;
+      case "Backspace":
+        handleBackspaceBtnPress(calcLogic, calcDisplay);
+        break;
+      case ".":
+        if (!calcLogic.decimalBtnPressed)
+          handleDecimalBtnPress(calcLogic, calcDisplay);
+        break;
+      case "0":
+      case "1":
+      case "2":
+      case "3":
+      case "4":
+      case "5":
+      case "6":
+      case "7":
+      case "8":
+      case "9":
+        handleNumBtnPress(keyName, calcLogic, calcDisplay);
+        break;
+      case "÷":
+      case "x":
+      case "-":
+      case "+":
+      case "=":
+        handleOperatorBtnPress(keyName, calcLogic, calcDisplay);
+        break;
+    }
+  });
 }
 
 main();
