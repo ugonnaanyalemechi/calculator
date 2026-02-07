@@ -188,6 +188,15 @@ function handleDecimalBtnPress(calcLogic, calcDisplay) {
   }
 }
 
+function checkAndAdjustOverflow(calcDisplay) {
+  if (calcDisplay.textContent.length >= 10) {
+    calcDisplay.classList.add("overflow-active");
+    calcDisplay.scrollLeft =  calcDisplay.scrollWidth;
+  } else {
+    calcDisplay.classList.remove("overflow-active");
+  }
+}
+
 function main() {
   let calcLogic = {
     operand1: "0",
@@ -224,6 +233,8 @@ function main() {
           }
       }
     }
+  
+    checkAndAdjustOverflow(calcDisplay);
   });
 
   document.addEventListener("keydown", (e) => {
@@ -268,6 +279,8 @@ function main() {
         handleOperatorBtnPress(keyName, calcLogic, calcDisplay);
         break;
     }
+
+    checkAndAdjustOverflow(calcDisplay);
   });
 }
 

@@ -45,10 +45,13 @@ body {
   border-top-right-radius: 20px;
   border-top-left-radius: 20px;
   color: rgb(200, 203, 210);
+}
+
+.overflow-active {
   overflow-x: auto;
   overflow-y: hidden;
   scrollbar-width: thin;
-  direction: rtl;
+  white-space: nowrap;
 }
 
 .btns {
